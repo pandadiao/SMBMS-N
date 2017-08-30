@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD  Config 3.0//EN" "mybatis-3-config.dtd" >
+<configuration> 
+	<!--懒加载  -->
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false"/>
+	</settings>
+	<!-- 别名指定路径 -->
+	<typeAliases>
+		<package name="cn.smbms.pojo"/>
+	</typeAliases>
+
+</configuration>

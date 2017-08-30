@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD  Mapper 3.0//EN"
+ "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.smbms.dao.user.UserMapper">
+	<!-- 用户登录 -->
+	<select id="getLoginUser" resultType="User">
+		select * from smbms_user
+		where userCode=#{userCode} and userPassword=#{userPassword}
+	</select>
+
+	<!-- user用户信息显示 -->
+	<select id="getUserList" resultType="User">
+		select u.*,r.roleName as userRoleName from smbms_user u,smbms_role r
+		where u.userRole=r.id
+		<if test="userName!=null and userName!=''">and userName like CONCAT ('%',#{userName},'%')</if>
+		<if test="userRole>0">and userRole=#{userRole}</if>
+		limit #{currentPageNo},#{pageSize}
+	</select>
+
+	<!-- 查找用户信息总条数 -->
+	<select id="getUserCount" resultType="int">
+		select count(1) from smbms_user
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="userName!=null and userName!=''">
+				and userName like CONCAT('%',#{userName},'%')
+			</if>
+			<if test="userRole>0">
+				and userRole=#{userRole}
+			</if>
+		</trim>
+	</select>
+	<!-- 添加User用户 -->
+	<insert id="addUser" parameterType="User">
+		insert into
+		smbms_user(userCode,userName,userPassword,gender,birthday,phone,address,userRole,createdBy,creationDate) value (#{userCode},#{userName},#{userPassword},#{gender},#{birthday},#{phone},#{address},#{userRole},#{createdBy},#{creationDate})
+	</insert>
+	<!-- 删除User用户 -->
+	<delete id="deleteUserById" parameterType="int">
+		delete from smbms_user where id=#{delId}
+	</delete>
+	<!-- 修改User用户信息 -->
+	<update id="modify" parameterType="int">
+		update smbms_user set userName=#{userName},gender=#{gender},birthday=#{birthday},phone=#{phone},address=#{address},userRole=#{userRole} where id=#{id}
+	</update>
+	<!-- 修改User用密码 -->
+	<update id="updatePwd" parameterType="int">
+		UPDATE smbms_user SET userPassword=#{pwd} WHERE id=#{id}
+	</update>
+	<!-- 通过User ID查找User信息 -->
+	<select id="getUserById" resultType="User">
+		select u.*,r.roleName as userRoleName from smbms_user u,smbms_role r where u.userRole=r.id and u.id=#{id}
+	</select>
+	<!-- 通过userCode查询User信息 -->
+	<select id="getUserByUserCode" resultType="User">
+		select * from smbms_user where userCode=#{userCode}
+	</select>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.smbms.dao.role.RoleMapper">
+      <select id="getRoleList" resultMap="roleList">
+         select *from smbms_role
+      </select>
+        <resultMap id="roleList" type="role">
+         <result property="id" column="id"/>
+         <result property="roleCode" column="roleCode"/>
+         <result property="roleName" column="roleName"/>
+     </resultMap>
+</mapper>
